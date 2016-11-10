@@ -249,6 +249,124 @@
             
               
                 
+                <a class="post-title-link" href="/2016/11/10/服务端配置/" itemprop="url">
+                  服务端配置
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-11-10T19:51:36+08:00" content="2016-11-10">
+              2016-11-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>服务端所需软件：jdk1.8,tomcat9.0,IDEA15,mysql,navicat,svn,visualsvn</li>
+<li>tomcat错误原因：懂得查看日志，经过查看tomcat的日志发现，是由于内存不足造成服务无法启动，因此得出原因，当我关闭数据库服务时，一切问题都得到了解决</li>
+<li>修改某些配置之后，通常都需要重启才能生效，比如修改user,端口号在重启tomcat之后才能生效</li>
+<li>卧槽，似乎运行32位的IDEA占用的内存会少一些</li>
+<li>昨天死活都连接不上的SVN，今天一下就成功了。。。</li>
+<li>连接不上服务器的时候，重启一下就好了</li>
+<li>编译之后的classes文件，似乎不会自动更新（重新运行服务器或者redploy都不行），只能rebuild项目，才能更新classes文件（似乎不是这个问题。。。）</li>
+<li>之所以死活都提交不了servlet文件的class，是由于没有添加到版本控制，使用乌龟客户端添加到版本控制即可。。。</li>
+<li>我用IDEA提交了很久都没有提交上去，直接用乌龟客户端提交就是秒提交，这说明客户端和插件还是有很大的区别的</li>
+<li>当项目rebuild完之后，不要急着提交，因为class的生成需要一定的时间，等待一会再进行SVN的提交</li>
+<li>reloadAble=true，这个属性真的好用，意味着不必重启tomcat即可完成自动部署，但有时候还得重启。。。</li>
+<li>连接数据库时，需要设置远程IP，需要重启才行（必须要重启数据库，否则不可行）</li>
+<li>eclipse的webcontent目录似乎和IDEA的web目录作用一致</li>
+<li>当你的代码和别人一样时，却报错，看是否是因为缺少相关的Jar包</li>
+<li>向服务端同时传递参数和图片时，可以将参数作为请求头传递（或者url中作为动态参数传递），图片则直接放在输入流中</li>
+<li>在安卓程序中，IP不要使用127.0.0.1，因为模拟器可能不会识别</li>
+<li>不要以C盘作为直接文件存储路径，不然很有可能不成功</li>
+<li>当修改完代码之后，仍然是之前那种情况，请考虑rebuild</li>
+<li>向服务端写入文件时，文件名不能相同，否则不能显示</li>
+<li>远程桌面连接不上时，重启一下服务器即可（或者是占用了太多内存）</li>
+<li>MySQL允许远程登录：a.开启防火墙端口。b.修改mysql数据库中的user表</li>
+<li>每次IDEA<strong>重新启动</strong>时候，会检测有没有相关属性，比如数据库连接属性等，这样就可以直接直接设置数据库连接*(有时候不好使，只能手动连接了)</li>
+<li>当tomcat突然访问不了应用时，只需要重启tomcat即可解决问题</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/10/我的项目总结/" itemprop="url">
                   我的项目总结
                 </a>
@@ -392,7 +510,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -402,7 +520,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
