@@ -118,8 +118,8 @@ Survivor（二块from、to）
 
 针对不同的区域，垃圾回收器采用不同的策略进行回收。
 通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
-<meta property="og:image" content="http://becauseof.github.io/age.png">
-<meta property="og:updated_time" content="2017-02-28T13:15:05.400Z">
+<meta property="og:image" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/age.png">
+<meta property="og:updated_time" content="2017-02-28T13:29:26.677Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JVM内存管理-GC总结">
 <meta name="twitter:description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
@@ -137,7 +137,7 @@ Survivor（二块from、to）
 
 针对不同的区域，垃圾回收器采用不同的策略进行回收。
 通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
-<meta name="twitter:image" content="http://becauseof.github.io/age.png">
+<meta name="twitter:image" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/age.png">
 
 
 
@@ -379,7 +379,7 @@ Survivor（二块from、to）
 <li>永久代</li>
 </ol>
 </blockquote>
-<p><img src="/age.png" alt="堆的区域"></p>
+<img src="/2017/02/28/JVM内存管理-GC算法总结/age.png" alt="堆的区域" title="堆的区域">
 <p>针对不同的区域，垃圾回收器采用不同的策略进行回收。</p>
 <p>通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一次Minor GC，将Eden区和其中一块Survivor区内尚存活的对象放入另一块Survivor区域, 如果在Minor GC期间发现新生代存活对象无法放入空闲的Survivor区, 则会使对象提前进入老年代。一些大的对象则直接进入老年代。</p>
 <p>永久代用来存放一些静态文件、方法、代码缓存等。</p>
