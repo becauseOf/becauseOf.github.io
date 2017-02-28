@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JVM," />
 
 
 
@@ -84,22 +84,60 @@
 
 
 
-<meta name="description" content="四季很好，因为你的到来。
+<meta name="description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
 
-最近访客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="guestbook">
-<meta property="og:url" content="http://becauseof.github.io/guestbook/index.html">
+
+新生代
+Eden（一块）
+Survivor（二块from、to）
+
+
+老年代
+永久代
+
+
+
+针对不同的区域，垃圾回收器采用不同的策略进行回收。
+通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM内存管理-GC总结">
+<meta property="og:url" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/index.html">
 <meta property="og:site_name" content="向松的个人博客">
-<meta property="og:description" content="四季很好，因为你的到来。
+<meta property="og:description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
 
-最近访客">
-<meta property="og:updated_time" content="2016-11-23T17:04:02.729Z">
+
+新生代
+Eden（一块）
+Survivor（二块from、to）
+
+
+老年代
+永久代
+
+
+
+针对不同的区域，垃圾回收器采用不同的策略进行回收。
+通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
+<meta property="og:image" content="http://becauseof.github.io/age.png">
+<meta property="og:updated_time" content="2017-02-28T13:15:05.400Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="guestbook">
-<meta name="twitter:description" content="四季很好，因为你的到来。
+<meta name="twitter:title" content="JVM内存管理-GC总结">
+<meta name="twitter:description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
 
-最近访客">
+
+新生代
+Eden（一块）
+Survivor（二块from、to）
+
+
+老年代
+永久代
+
+
+
+针对不同的区域，垃圾回收器采用不同的策略进行回收。
+通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
+<meta name="twitter:image" content="http://becauseof.github.io/age.png">
 
 
 
@@ -120,16 +158,10 @@
 
 
 
-  <link rel="canonical" href="http://becauseof.github.io/guestbook/"/>
+  <link rel="canonical" href="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/"/>
 
 
-  <title>
-  
-
-  
-    guestbook | 向松的个人博客
-  
-</title>
+  <title> JVM内存管理-GC总结 | 向松的个人博客 </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -160,7 +192,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -260,14 +292,216 @@
 
   <div id="posts" class="posts-expand">
     
-    
-        <!-- 标签 方式，要求版本在0.4.5或以上 -->
-<blockquote class="blockquote-center"><p>四季很好，因为你的到来。</p>
-</blockquote>
-<blockquote>最近访客</blockquote>
 
-<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div>
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JVM内存管理-GC总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-02-28T19:51:14+08:00" content="2017-02-28">
+              2017-02-28
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/02/28/JVM内存管理-GC算法总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/02/28/JVM内存管理-GC算法总结/" class="leancloud_visitors" data-flag-title="JVM内存管理-GC总结">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><p>栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：</p>
+<blockquote>
+<ol>
+<li>新生代<ul>
+<li>Eden（一块）</li>
+<li>Survivor（二块from、to）</li>
+</ul>
+</li>
+<li>老年代</li>
+<li>永久代</li>
+</ol>
+</blockquote>
+<p><img src="/age.png" alt="堆的区域"></p>
+<p>针对不同的区域，垃圾回收器采用不同的策略进行回收。</p>
+<p>通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一次Minor GC，将Eden区和其中一块Survivor区内尚存活的对象放入另一块Survivor区域, 如果在Minor GC期间发现新生代存活对象无法放入空闲的Survivor区, 则会使对象提前进入老年代。一些大的对象则直接进入老年代。</p>
+<p>永久代用来存放一些静态文件、方法、代码缓存等。</p>
+<p>以下原因可能导致Full GC:</p>
+<blockquote>
+<ul>
+<li>老年代满</li>
+<li>永久代满</li>
+<li>System.gc()被显式调用</li>
+</ul>
+</blockquote>
+<p>随着多次GC的进行，对象的年龄会不断增加，并且最终会到老年代。</p>
+<hr>
+<h5 id="对象生死判定"><a href="#对象生死判定" class="headerlink" title="对象生死判定"></a>对象生死判定</h5><p>垃圾收集器在进行回收前，首先要判断哪些对象已死(可回收)，一般是采用可达性分析算法来判定。通过一系列的称为 GC Roots 的对象作为起点, 然后向下搜索; 搜索所走过的路径称为引用链/Reference Chain, 当一个对象到 GC Roots 没有任何引用链相连时, 即该对象不可达, 也就说明此对象是不可用的。</p>
+<hr>
+<h5 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h5><p>GC算法通常可分为分代收集和分区收集，一般主流VM垃圾收集器都采用分代收集。</p>
+<blockquote>
+<ul>
+<li>新生代<ol>
+<li>复制算法</li>
+<li>核心：将可用内存按容量划分为大小相等的两块, 每次只用其中一块, 当这一块的内存用完, 就将还存活的对象复制到另外一块上面, 然后把已使用过的内存空间一次清理掉.</li>
+</ol>
+</li>
+<li>老年代<ol>
+<li>“标记—清除”算法</li>
+<li>核心：该算法分为“标记”和“清除”两个阶段: 首先标记出所有需要回收的对象(可达性分析), 在标记完成后统一清理掉所有被标记的对象.</li>
+<li>标记整理算法</li>
+<li>核心：标记整理算法的标记过程与标记清除算法相同, 但后续步骤不再对可回收对象直接清理, 而是让所有存活的对象都向一端移动,然后清理掉端边界以外的内存.</li>
+</ol>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h5 id="垃圾收集器分类"><a href="#垃圾收集器分类" class="headerlink" title="垃圾收集器分类"></a>垃圾收集器分类</h5><blockquote>
+<ol>
+<li>新生代<ul>
+<li>Serial收集器</li>
+<li>ParNew收集器</li>
+<li>Parallel Scavenge收集器</li>
+</ul>
+</li>
+<li>老年代<ul>
+<li>Serial Old收集器</li>
+<li>Parallel Old收集器</li>
+<li>CMS收集器</li>
+</ul>
+</li>
+<li>分区收集-G1收集器</li>
+</ol>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/10/服务端配置/" rel="next" title="服务端配置">
+                <i class="fa fa-chevron-left"></i> 服务端配置
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/"
+     data-title="JVM内存管理-GC总结"
+     data-content=""
+     data-url="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
   </div>
 
 
@@ -278,8 +512,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="guestbook/index.html"
-           data-title="guestbook" data-url="http://becauseof.github.io/guestbook/index.html">
+      <div class="ds-thread" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/"
+           data-title="JVM内存管理-GC总结" data-url="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/">
       </div>
     
   </div>
@@ -303,8 +537,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/uploads/avatar.jpg"
@@ -383,6 +626,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对象生死判定"><span class="nav-number">2.</span> <span class="nav-text">对象生死判定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GC算法"><span class="nav-number">3.</span> <span class="nav-text">GC算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#垃圾收集器分类"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器分类</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -501,6 +755,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 
