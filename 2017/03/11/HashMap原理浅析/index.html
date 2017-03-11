@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JVM," />
+  <meta name="keywords" content="数据结构," />
 
 
 
@@ -84,60 +84,18 @@
 
 
 
-<meta name="description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
-
-
-新生代
-Eden（一块）
-Survivor（二块from、to）
-
-
-老年代
-永久代
-
-
-
-针对不同的区域，垃圾回收器采用不同的策略进行回收。
-通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
+<meta name="description" content="内部结构通过查看源码可以知道，HashMap内部的基本结构是数组+链表的形式。12345678910//基本结构，为Node数组transient Node&amp;lt;K,V&amp;gt;[] table;//Node类为数组中的结点，其中next用来指向和该结点具有相同hash值的结点static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM内存管理-GC总结">
-<meta property="og:url" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/index.html">
+<meta property="og:title" content="HashMap原理浅析">
+<meta property="og:url" content="http://becauseof.github.io/2017/03/11/HashMap原理浅析/index.html">
 <meta property="og:site_name" content="向松的个人博客">
-<meta property="og:description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
-
-
-新生代
-Eden（一块）
-Survivor（二块from、to）
-
-
-老年代
-永久代
-
-
-
-针对不同的区域，垃圾回收器采用不同的策略进行回收。
-通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
-<meta property="og:image" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/age.png">
-<meta property="og:updated_time" content="2017-03-10T12:38:58.146Z">
+<meta property="og:description" content="内部结构通过查看源码可以知道，HashMap内部的基本结构是数组+链表的形式。12345678910//基本结构，为Node数组transient Node&amp;lt;K,V&amp;gt;[] table;//Node类为数组中的结点，其中next用来指向和该结点具有相同hash值的结点static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt;">
+<meta property="og:image" content="http://becauseof.github.io/2017/03/11/HashMap原理浅析/hashmap.jpg">
+<meta property="og:updated_time" content="2017-03-11T04:13:58.649Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JVM内存管理-GC总结">
-<meta name="twitter:description" content="基本概念栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：
-
-
-新生代
-Eden（一块）
-Survivor（二块from、to）
-
-
-老年代
-永久代
-
-
-
-针对不同的区域，垃圾回收器采用不同的策略进行回收。
-通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一">
-<meta name="twitter:image" content="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/age.png">
+<meta name="twitter:title" content="HashMap原理浅析">
+<meta name="twitter:description" content="内部结构通过查看源码可以知道，HashMap内部的基本结构是数组+链表的形式。12345678910//基本结构，为Node数组transient Node&amp;lt;K,V&amp;gt;[] table;//Node类为数组中的结点，其中next用来指向和该结点具有相同hash值的结点static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt;">
+<meta name="twitter:image" content="http://becauseof.github.io/2017/03/11/HashMap原理浅析/hashmap.jpg">
 
 
 
@@ -158,10 +116,10 @@ Survivor（二块from、to）
 
 
 
-  <link rel="canonical" href="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/"/>
+  <link rel="canonical" href="http://becauseof.github.io/2017/03/11/HashMap原理浅析/"/>
 
 
-  <title> JVM内存管理-GC总结 | 向松的个人博客 </title>
+  <title> HashMap原理浅析 | 向松的个人博客 </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -311,7 +269,7 @@ Survivor（二块from、to）
             
             
               
-                JVM内存管理-GC总结
+                HashMap原理浅析
               
             
           </h1>
@@ -323,8 +281,8 @@ Survivor（二块from、to）
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2017-02-28T19:51:14+08:00" content="2017-02-28">
-              2017-02-28
+            <time itemprop="dateCreated" datetime="2017-03-11T10:22:25+08:00" content="2017-03-11">
+              2017-03-11
             </time>
           </span>
 
@@ -337,8 +295,8 @@ Survivor（二块from、to）
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/JVM/" itemprop="url" rel="index">
-                    <span itemprop="name">JVM</span>
+                  <a href="/categories/J2SE/" itemprop="url" rel="index">
+                    <span itemprop="name">J2SE</span>
                   </a>
                 </span>
 
@@ -353,8 +311,8 @@ Survivor（二块from、to）
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2017/02/28/JVM内存管理-GC算法总结/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/" itemprop="commentsCount"></span>
+                <a href="/2017/03/11/HashMap原理浅析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/11/HashMap原理浅析/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -364,7 +322,7 @@ Survivor（二块from、to）
 
           
           
-             <span id="/2017/02/28/JVM内存管理-GC算法总结/" class="leancloud_visitors" data-flag-title="JVM内存管理-GC总结">
+             <span id="/2017/03/11/HashMap原理浅析/" class="leancloud_visitors" data-flag-title="HashMap原理浅析">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -386,69 +344,10 @@ Survivor（二块from、to）
       
 
       
-        <h5 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h5><p>栈中一般用来存储局部变量，而堆则用来存储对象、数组，java不允许我们显式释放内存，对象和数组总是由JVM的垃圾回收器自动回收，堆被分成以下三个区域：</p>
-<blockquote>
-<ol>
-<li>新生代<ul>
-<li>Eden（一块）</li>
-<li>Survivor（二块from、to）</li>
-</ul>
-</li>
-<li>老年代</li>
-<li>永久代</li>
-</ol>
-</blockquote>
-<img src="/2017/02/28/JVM内存管理-GC算法总结/age.png" alt="堆的区域" title="堆的区域">
-<p>针对不同的区域，垃圾回收器采用不同的策略进行回收。</p>
-<p>通常大多数情况下，对象或数组分配在新生代Eden区，当Eden区没有足够空间时，JVM发起一次Minor GC，将Eden区和其中一块Survivor区内尚存活的对象放入另一块Survivor区域, 如果在Minor GC期间发现新生代存活对象无法放入空闲的Survivor区, 则会使对象提前进入老年代。一些大的对象则直接进入老年代。</p>
-<p>永久代用来存放一些静态文件、方法、代码缓存等。</p>
-<p>以下原因可能导致Full GC:</p>
-<blockquote>
-<ul>
-<li>老年代满</li>
-<li>永久代满</li>
-<li>System.gc()被显式调用</li>
-</ul>
-</blockquote>
-<p>随着多次GC的进行，对象的年龄会不断增加，并且最终会到老年代。</p>
-<hr>
-<h5 id="对象生死判定"><a href="#对象生死判定" class="headerlink" title="对象生死判定"></a>对象生死判定</h5><p>垃圾收集器在进行回收前，首先要判断哪些对象已死(可回收)，一般是采用可达性分析算法来判定。通过一系列的称为 GC Roots 的对象作为起点, 然后向下搜索; 搜索所走过的路径称为引用链/Reference Chain, 当一个对象到 GC Roots 没有任何引用链相连时, 即该对象不可达, 也就说明此对象是不可用的。</p>
-<hr>
-<h5 id="GC算法"><a href="#GC算法" class="headerlink" title="GC算法"></a>GC算法</h5><p>GC算法通常可分为分代收集和分区收集，一般主流VM垃圾收集器都采用分代收集。</p>
-<blockquote>
-<ul>
-<li>新生代<ol>
-<li>复制算法</li>
-<li>核心：将可用内存按容量划分为大小相等的两块, 每次只用其中一块, 当这一块的内存用完, 就将还存活的对象复制到另外一块上面, 然后把已使用过的内存空间一次清理掉.</li>
-</ol>
-</li>
-<li>老年代<ol>
-<li>“标记—清除”算法</li>
-<li>核心：该算法分为“标记”和“清除”两个阶段: 首先标记出所有需要回收的对象(可达性分析), 在标记完成后统一清理掉所有被标记的对象.</li>
-<li>标记整理算法</li>
-<li>核心：标记整理算法的标记过程与标记清除算法相同, 但后续步骤不再对可回收对象直接清理, 而是让所有存活的对象都向一端移动,然后清理掉端边界以外的内存.</li>
-</ol>
-</li>
-</ul>
-</blockquote>
-<hr>
-<h5 id="垃圾收集器分类"><a href="#垃圾收集器分类" class="headerlink" title="垃圾收集器分类"></a>垃圾收集器分类</h5><blockquote>
-<ol>
-<li>新生代<ul>
-<li>Serial收集器</li>
-<li>ParNew收集器</li>
-<li>Parallel Scavenge收集器</li>
-</ul>
-</li>
-<li>老年代<ul>
-<li>Serial Old收集器</li>
-<li>Parallel Old收集器</li>
-<li>CMS收集器</li>
-</ul>
-</li>
-<li>分区收集-G1收集器</li>
-</ol>
-</blockquote>
+        <h4 id="内部结构"><a href="#内部结构" class="headerlink" title="内部结构"></a>内部结构</h4><p>通过查看源码可以知道，HashMap内部的基本结构是数组+链表的形式。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//基本结构，为Node数组</span></div><div class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</div><div class="line"></div><div class="line"><span class="comment">//Node类为数组中的结点，其中next用来指向和该结点具有相同hash值的结点</span></div><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">final</span> <span class="keyword">int</span> hash;</div><div class="line">        <span class="keyword">final</span> K key;</div><div class="line">        V value;</div><div class="line">        Node&lt;K,V&gt; next;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<img src="/2017/03/11/HashMap原理浅析/hashmap.jpg" alt="内部结构" title="内部结构">
+<h4 id="put-方法"><a href="#put-方法" class="headerlink" title="put()方法"></a>put()方法</h4><p>通过源码得知调用put方法，最终会调用putVal方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// putVal方法具有返回值，会返回之前在这个结点的值，若之前该结点无值，则返回null</span></div><div class="line"><span class="comment">// onlyIfAbsent若为true，则不替换之前的值，否则替换</span></div><div class="line">    <span class="function"><span class="keyword">final</span> V <span class="title">putVal</span><span class="params">(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">boolean</span> onlyIfAbsent,</span></span></div><div class="line">                   <span class="keyword">boolean</span> evict) &#123;</div><div class="line">        Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; p; <span class="keyword">int</span> n, i;</div><div class="line">        <span class="comment">// 如果table为空，进行初始化</span></div><div class="line">        <span class="keyword">if</span> ((tab = table) == <span class="keyword">null</span> || (n = tab.length) == <span class="number">0</span>)</div><div class="line">            n = (tab = resize()).length;</div><div class="line">        **<span class="comment">// (n - 1) &amp; hash代表在table中的索引</span></div><div class="line">        <span class="comment">// 当长度为2的n次方时，就相当于对lenght求模，进行位运算则可以提高效率</span></div><div class="line">        <span class="comment">// 另外一个是可以降低出现hash冲突的概率，使得元素均匀分布</span></div><div class="line">        <span class="comment">// 如果该结点没有存放值，则直接进行存放**</span></div><div class="line">        <span class="keyword">if</span> ((p = tab[i = (n - <span class="number">1</span>) &amp; hash]) == <span class="keyword">null</span>)</div><div class="line">            tab[i] = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line">        <span class="comment">// 该结点已有值</span></div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">            Node&lt;K,V&gt; e; K k;</div><div class="line">            <span class="comment">// key值和hash值均相等，则会进行替换</span></div><div class="line">            <span class="keyword">if</span> (p.hash == hash &amp;&amp;</div><div class="line">                ((k = p.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                e = p;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                e = ((TreeNode&lt;K,V&gt;)p).putTreeVal(<span class="keyword">this</span>, tab, hash, key, value);</div><div class="line">            <span class="keyword">else</span> &#123;</div><div class="line">              <span class="comment">// 在该结点的链表的末尾处进行插入</span></div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> binCount = <span class="number">0</span>; ; ++binCount) &#123;</div><div class="line">                    <span class="keyword">if</span> ((e = p.next) == <span class="keyword">null</span>) &#123;</div><div class="line">                        <span class="comment">//插入</span></div><div class="line">                        p.next = newNode(hash, key, value, <span class="keyword">null</span>);</div><div class="line">                        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) <span class="comment">// -1 for 1st</span></div><div class="line">                            treeifyBin(tab, hash);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                        ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    p = e;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 进行值的替换</span></div><div class="line">            <span class="keyword">if</span> (e != <span class="keyword">null</span>) &#123; <span class="comment">// existing mapping for key</span></div><div class="line">                V oldValue = e.value;</div><div class="line">                <span class="keyword">if</span> (!onlyIfAbsent || oldValue == <span class="keyword">null</span>)</div><div class="line">                    e.value = value;</div><div class="line">                afterNodeAccess(e);</div><div class="line">                <span class="keyword">return</span> oldValue;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 修改次数+1</span></div><div class="line">        ++modCount;</div><div class="line">        <span class="keyword">if</span> (++size &gt; threshold)</div><div class="line">        <span class="comment">//扩容</span></div><div class="line">            resize();</div><div class="line">        afterNodeInsertion(evict);</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h4 id="get-方法"><a href="#get-方法" class="headerlink" title="get()方法"></a>get()方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//首先获取hash值对应的结点</span></div><div class="line"><span class="comment">// 然后比较key，遍历链表</span></div><div class="line"><span class="function"><span class="keyword">final</span> Node&lt;K,V&gt; <span class="title">getNode</span><span class="params">(<span class="keyword">int</span> hash, Object key)</span> </span>&#123;</div><div class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; first, e; <span class="keyword">int</span> n; K k;</div><div class="line">    <span class="keyword">if</span> ((tab = table) != <span class="keyword">null</span> &amp;&amp; (n = tab.length) &gt; <span class="number">0</span> &amp;&amp;</div><div class="line">        (first = tab[(n - <span class="number">1</span>) &amp; hash]) != <span class="keyword">null</span>) &#123;</div><div class="line">          <span class="comment">// 比较第一个结点的key值</span></div><div class="line">        <span class="keyword">if</span> (first.hash == hash &amp;&amp; <span class="comment">// always check first node</span></div><div class="line">            ((k = first.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">            <span class="keyword">return</span> first;</div><div class="line">            <span class="comment">// 开始遍历链表</span></div><div class="line">        <span class="keyword">if</span> ((e = first.next) != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (first <span class="keyword">instanceof</span> TreeNode)</div><div class="line">                <span class="keyword">return</span> ((TreeNode&lt;K,V&gt;)first).getTreeNode(hash, key);</div><div class="line">            <span class="keyword">do</span> &#123;</div><div class="line">                <span class="keyword">if</span> (e.hash == hash &amp;&amp;</div><div class="line">                    ((k = e.key) == key || (key != <span class="keyword">null</span> &amp;&amp; key.equals(k))))</div><div class="line">                    <span class="keyword">return</span> e;</div><div class="line">            &#125; <span class="keyword">while</span> ((e = e.next) != <span class="keyword">null</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -471,7 +370,7 @@ Survivor（二块from、to）
       
         <div class="post-tags">
           
-            <a href="/tags/JVM/" rel="tag">#JVM</a>
+            <a href="/tags/数据结构/" rel="tag">#数据结构</a>
           
         </div>
       
@@ -480,17 +379,13 @@ Survivor（二块from、to）
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/11/10/服务端配置/" rel="next" title="服务端配置">
-                <i class="fa fa-chevron-left"></i> 服务端配置
+              <a href="/2017/03/10/HashMap和HashTable区别/" rel="next" title="HashMap和Hashtable区别">
+                <i class="fa fa-chevron-left"></i> HashMap和Hashtable区别
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/10/HashMap和HashTable区别/" rel="prev" title="HashMap和Hashtable区别">
-                HashMap和Hashtable区别 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -505,10 +400,10 @@ Survivor（二块from、to）
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/"
-     data-title="JVM内存管理-GC总结"
+        <div class="ds-share flat" data-thread-key="2017/03/11/HashMap原理浅析/"
+     data-title="HashMap原理浅析"
      data-content=""
-     data-url="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/">
+     data-url="http://becauseof.github.io/2017/03/11/HashMap原理浅析/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -535,8 +430,8 @@ Survivor（二块from、to）
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/02/28/JVM内存管理-GC算法总结/"
-           data-title="JVM内存管理-GC总结" data-url="http://becauseof.github.io/2017/02/28/JVM内存管理-GC算法总结/">
+      <div class="ds-thread" data-thread-key="2017/03/11/HashMap原理浅析/"
+           data-title="HashMap原理浅析" data-url="http://becauseof.github.io/2017/03/11/HashMap原理浅析/">
       </div>
     
   </div>
@@ -656,7 +551,7 @@ Survivor（二块from、to）
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对象生死判定"><span class="nav-number">2.</span> <span class="nav-text">对象生死判定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#GC算法"><span class="nav-number">3.</span> <span class="nav-text">GC算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#垃圾收集器分类"><span class="nav-number">4.</span> <span class="nav-text">垃圾收集器分类</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#内部结构"><span class="nav-number">1.</span> <span class="nav-text">内部结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put-方法"><span class="nav-number">2.</span> <span class="nav-text">put()方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#get-方法"><span class="nav-number">3.</span> <span class="nav-text">get()方法</span></a></li></ol></div>
             
           </div>
         </section>
