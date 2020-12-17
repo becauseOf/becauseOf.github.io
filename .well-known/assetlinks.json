@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.smile.gifmaker",
+    "sha256_cert_fingerprints":
+    ["22:41:DB:0C:B2:92:5D:63:F4:15:71:45:75:EE:67:82:84:6D:73:2E:28:A8:6C:F4:F7:85:C6:CE:E4:8C:A1:C1"]
+  }
+}]
